@@ -9,29 +9,25 @@ function App() {
   cosnt [products, setProducts] = useState([]);
   useEffect(() => {
   const fetchData = async () => {
-   const data = fetcher ("/categories");
+  const data = fetcher ("/categories");
    setCategories(data);
   }
   fetchData();
   }, [])
 
   const handleCategoryClick = id => {
-    fetch("http:/localhost:3001/products?catId=" + id)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      setProducts(data);
-    })
+    const data = fetcher ("/products");
+    setProducts(data);
   }
 
   const renderCategories = () => {
-    return Categories.map(
+    return Category.map(
       <Category key = {c.id} id = {c.id} title = {c.title} onCategoryClick = {() => handleClickCategory(c.id)} />
     );
   }
 
   const renderProducts = () => {
-    return Products.map( p =>
+    return products.map( p =>
       <div>{p.title}</div>
     );
   }
@@ -40,11 +36,11 @@ function App() {
    <header>My Store</header>
     <section>
       <nav>
-      Categories && renderCategories()
+      categories && renderCategories()
       </nav>
       <article>
         <h1>Products</h1>
-        {Prodcuts && renderProducts()}
+        {prodcuts && renderProducts()}
       </article>
       <footer>
         footer
