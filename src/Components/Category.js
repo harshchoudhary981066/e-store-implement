@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Category = props => {
+const Category = ({id, title, onCategoryClick}) => {
   return (
     <div>
-      <div key = {props.id}>{props.title}</div>
+      <div key = {id} onClick = {() => onCategoryClick(id)}>{title}</div>
     </div>
   )
 }

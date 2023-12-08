@@ -2,21 +2,34 @@ import logo from './logo.svg';
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import Category from './Components/Category';
+import { fetcher } from './fetcher';
 
 function App() {
-  cosnt [results, setResults ] = useState([]);
+  cosnt [categories, setCategories] = useState([]);
+  cosnt [products, setProducts] = useState([]);
   useEffect(() => {
-    fetch("http:/localhost:3001/categories")
+   const data = fetcher ("/categories");
+   setCategories(data);
+  }, [])
+
+  const handleCategoryClick = id => {
+    fetch("http:/localhost:3001/products?catId=" + id)
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      setResults(data);
+      setProducts(data);
     })
-  }, [])
+  }
 
   const renderCategories = () => {
-    return results.map(
-      <Category key = {c.id} id = {c.id} title = {c.title} />
+    return Categories.map(
+      <Category key = {c.id} id = {c.id} title = {c.title} onCategoryClick = {() => handleClickCategory(c.id)} />
+    );
+  }
+
+  const renderProducts = () => {
+    return Products.map( p =>
+      <div>{p.title}</div>
     );
   }
   return (
@@ -27,7 +40,8 @@ function App() {
       results && renderCategories()
       </nav>
       <article>
-        Main area
+        <h1>Products</h1>
+        {Prodcuts && renderProducts()}
       </article>
       <footer>
         footer
