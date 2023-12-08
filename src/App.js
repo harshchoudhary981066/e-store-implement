@@ -8,8 +8,11 @@ function App() {
   cosnt [categories, setCategories] = useState([]);
   cosnt [products, setProducts] = useState([]);
   useEffect(() => {
+  const fetchData = async () => {
    const data = fetcher ("/categories");
    setCategories(data);
+  }
+  fetchData();
   }, [])
 
   const handleCategoryClick = id => {
@@ -37,7 +40,7 @@ function App() {
    <header>My Store</header>
     <section>
       <nav>
-      results && renderCategories()
+      Categories && renderCategories()
       </nav>
       <article>
         <h1>Products</h1>
