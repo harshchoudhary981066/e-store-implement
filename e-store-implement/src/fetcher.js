@@ -25,3 +25,12 @@ export const fetcher = async (url) => {
 the build like this, it will return no value if the fetch function does not complete fetching before useState([])
 calls for the value.
         } */}
+
+export const getCategories = () =>
+{
+    return fetcher('\categories');
+}
+export const getProducts = () =>
+{
+    return fetcher('\products?catId=' + id);
+}
