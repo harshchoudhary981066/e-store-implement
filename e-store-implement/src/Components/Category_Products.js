@@ -1,9 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-const Category_Products = ({title, image, features, specs, stock}) => {
+const Category_Products = ({id, title, image, features, specs, stock}) => {
   return (
     <article>
-    <div className = 'category-product-title'>{title}</div>
+    <div className = 'category-product-title'><Link to={'productsId/${id}'}>{title}</div>
     <figure>
         <div className='category-product-image'>
             <img src = {'./assets/${image}'} alt = {title} />
@@ -27,7 +28,7 @@ const Category_Products = ({title, image, features, specs, stock}) => {
             <h3>Features</h3>
             <ul>
                 {features?.map( (f, i) => {
-                   return <li key={'feature${i}'}>{f}</li> 
+                   return <li key={'feature ${i}'}>{f}</li> 
                 }
 
                 )}
