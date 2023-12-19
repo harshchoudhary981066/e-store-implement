@@ -2,14 +2,15 @@ import logo from './logo.svg';
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import Category from './Components/Category';
-import { fetcher } from './fetcher';
+import { getCategories, getProducts } from './fetcher';
+import Category_Products from './Components/Category_Products';
 
 function App() {
   cosnt [categories, setCategories] = useState({errormessage: '', data: []});
   cosnt [products, setProducts] = useState([]);
   useEffect(() => {
   const fetchData = async () => {
-  const responseObject = await fetcher ("/categories");
+  const responseObject = await getCategories();
    setCategories(responseObject);
   }
   fetchData();
@@ -17,7 +18,7 @@ function App() {
 
   const handleCategoryClick = id => {
     const fetchData = async () => {
-      const responseObject = await fetcher ("/products?catId=" + id);
+      const responseObject = await getProducts();
        setProducts(responseObject);
   }
   fetchData();
@@ -38,7 +39,7 @@ function App() {
 
   const renderProducts = () => {
     return products.data.map( p =>
-      <div>{p.title}</div>
+      <Category_Products {...p}>{p.title}</Category_Products>
     );
   }
   return (
@@ -49,12 +50,12 @@ function App() {
       {categories.errormessage && <div> Error: {categories.errormessage}</div>}
       {categories && renderCategories()}
       </nav>
-      <article>
+      <main>
       {products.errormessage && <div> Error: {products.errormessage}</div>}
         <h1>Products</h1>
         {prodcuts && renderProducts()} {/*The "products && is used because the usestate([]) 
         having no parameters won't throw an error. It is a kind of check mechanism for empty string*/}
-      </article>
+      </main>
       <footer>
         footer
       </footer>

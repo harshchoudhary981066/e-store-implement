@@ -4,6 +4,10 @@ export const fetcher = async (url) => {
     let responseObject = {errormessage: '', data: []};
     try {
         const response = await fetch(BASE_URL + url);
+        if (!response.ok){
+            throw new Error('HTTP Error ${response.status}'); {/*This displays the error on the screen with
+        the exact error status */}
+        }
         const responseData = await response.json();
         responseObject.errormessage = '';
         responseObject.data = responseData;
