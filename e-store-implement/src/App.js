@@ -39,7 +39,7 @@ function App() {
 
   const renderProducts = () => {
     return products.data.map( p =>
-      <Category_Products {...p}>{p.title}</Category_Products>
+      <Category_Products key={p.id} {...p}>{p.title}</Category_Products>
     );
   }
   return (

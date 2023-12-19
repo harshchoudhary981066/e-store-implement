@@ -26,8 +26,8 @@ const Category_Products = ({title, image, features, specs, stock}) => {
         <div className='category-products-info-features'>
             <h3>Features</h3>
             <ul>
-                {features?.map( (f) => {
-                   return <li>{f}</li> 
+                {features?.map( (f, i) => {
+                   return <li key={'feature${i}'}>{f}</li> 
                 }
 
                 )}
