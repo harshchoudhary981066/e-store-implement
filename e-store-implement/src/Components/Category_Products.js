@@ -11,6 +11,57 @@ font-size: 1.5 en;
 padding-left: 10 px;
 `;
 
+const ProductInfoHeader = styled.h3`
+    color: darkslategray;
+    font-size: 1em;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 5px;
+`;
+
+const ProductInfoListItem = styled.li`
+    padding-top: 5px;
+`;
+
+const ProductInfoStock = styled.div`
+    padding-left: 10px;
+    margin-top: 20px;
+    padding-top: 10px;
+    background-color: lightgrey;
+    height: 20%;
+    width: 30%;
+    border-radius: 5px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+`;
+
+const ProductInfoStockLabel = styled.label`
+    padding-bottom: 5px;
+`;
+
+const ProductInfoAction = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const ProductInfoActionButton = styled.button`
+    width: 160px;
+    height: 30px;
+    border-radius: 10px;
+    margin-top: 20px;
+    background-color: lightgray;
+    border: solid 1px slategrey;
+    font-weight: bold;
+`;
+
+const ProductInfoFinancePrice = styled.div`
+    color: darkslategray;
+    font-size: 2em;
+    font-weight: bold;
+    padding-top: 10px;
+`;
+
 //while replacing a 'div', styled.div is used
 const ProductImageContainer = styled.div`
 padding: 10 px;
@@ -29,57 +80,58 @@ flex-direction: column;
 const Category_Products = ({id, title, image, features, specs, stock}) => {
     const navigate = useNavigate();
   return (
-    <article>
+    <ProductInfoArticle>
     <ProductTitle>
-    <Link to={'products/${id}'}>{title}</Link>
+        <Link to={`/products/${id}`}>{title}</Link>
     </ProductTitle>
+
     <figure>
         <ProductImageContainer>
-            <ProductImageContainerImage src = {'./assets/${image}'} alt = {title} />
+            <ProductImage src={`/assets/${image}`} alt={title} />
         </ProductImageContainer>
     </figure>
+
     <aside>
         <ProductInfo>
-            <h3>Dimensions</h3>
+            <ProductInfoHeader>Dimensions</ProductInfoHeader>
             <label>{specs.dimensions}</label>
         </ProductInfo>
 
-        {/*'specs.capacity &&' Works as an 'if' */}
-        { specs.capacity &&  
+        {specs.capacity && (
+            <ProductInfo>
+                <ProductInfoHeader>Capacity</ProductInfoHeader>
+                <label>{specs.capacity}</label>
+            </ProductInfo>
+        )}
+
         <ProductInfo>
-            <h3>Capacity</h3>
-            <label>{specs.capacity}</label>
-        </ProductInfo>
-        }
-
-        <div className='category-products-info-features'>
-            <h3>Features</h3>
+            <ProductInfoHeader>Features</ProductInfoHeader>
             <ul>
-                {features?.map( (f, i) => {
-                   return <li key={'feature ${i}'}>{f}</li> 
-                }
-
-                )}
+                {features?.map((f, i) => {
+                    return <ProductInfoListItem key={`feature${i}`}>{f}</ProductInfoListItem>;
+                })}
             </ul>
-        </div>
+        </ProductInfo>
     </aside>
-    <aside className='category-product-finance'>
-        <div className='category-product-finance-price'>
-            &pound; {price}
-        </div>
 
-        <div className='category-product-info-stock'>
-            <label>Stock: {stock}</label>
-            <label>FREE DELIVERY</label>
-        </div>
+    <aside>
+        <ProductInfoFinancePrice>
+            &pound;{price}
+        </ProductInfoFinancePrice>
 
-        <div className='category-product-action'>
-            <button onClick = { () => navigate('products/${id}')}>View Prodcut</button>
-            <button>Add To Basket</button>
-        </div>
+        <ProductInfoStock>
+            <ProductInfoStockLabel>Stock Level: {stock}</ProductInfoStockLabel>
+            <ProductInfoStockLabel>FREE Delivery</ProductInfoStockLabel>
+        </ProductInfoStock>
 
+        <ProductInfoAction>
+            <ProductInfoActionButton onClick={() => navigate(`/products/${id}`)}>
+                View Product
+            </ProductInfoActionButton>
+            <ProductInfoActionButton onClick={() => addProduct({id, title, price})}>Add to Basket</ProductInfoActionButton>
+        </ProductInfoAction>
     </aside>
-    </article>
+</ProductInfoArticle>
   )
 }
 
