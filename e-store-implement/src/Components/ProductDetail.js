@@ -99,6 +99,9 @@ const ProductDetail = () => {
   fetchData();
   }, [productId]);
 
+  const createMarkup = () =>{
+    return { __html: product.data.description} // "__html:" has to be used exactly like that to introduce the dangerous html 
+  }
 
   return (
     <ProductInfoArticle>
@@ -168,7 +171,8 @@ const ProductDetail = () => {
             </aside>
 
             <ProductInfoDescription
-                dangerouslySetInnerHTML={createMarkup()}
+                dangerouslySetInnerHTML={createMarkup()} //dangerouslySetInnerHTML is used to insert html tags in React. 
+                //It is deemed unsafe by react by default
             ></ProductInfoDescription>
         </ProductInfoArticle>
   )
