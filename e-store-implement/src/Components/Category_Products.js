@@ -1,30 +1,55 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+{/*Third Party tool used to create a single class for styling components in CSS */}
+import styled from 'styled-components';
+
+const ProductTitle = styled.div`
+grid-column: 1/ span 3;
+color: darkslategray;
+font-weight: bold;
+font-size: 1.5 en;
+padding-left: 10 px;
+`;
+
+//while replacing a 'div', styled.div is used
+const ProductImageContainer = styled.div`
+padding: 10 px;
+width: 60%;
+`
+//while replacing and 'img' tag, styled.img is used
+const ProductImageContainerImage = styled.img`
+width: 100%;
+height: 100%;
+`
+const ProductInfo = styled.div`
+display: flex;
+flex-direction: column; 
+`
 
 const Category_Products = ({id, title, image, features, specs, stock}) => {
     const navigate = useNavigate();
   return (
     <article>
-    <div className = 'category-product-title'>
+    <ProductTitle>
     <Link to={'products/${id}'}>{title}</Link>
-    </div>
+    </ProductTitle>
     <figure>
-        <div className='category-product-image'>
-            <img src = {'./assets/${image}'} alt = {title} />
-        </div>
+        <ProductImageContainer>
+            <ProductImageContainerImage src = {'./assets/${image}'} alt = {title} />
+        </ProductImageContainer>
     </figure>
     <aside>
-        <div className='category-product-info-dimensions'>
+        <ProductInfo>
             <h3>Dimensions</h3>
             <label>{specs.dimensions}</label>
-        </div>
+        </ProductInfo>
 
         {/*'specs.capacity &&' Works as an 'if' */}
         { specs.capacity &&  
-        <div className='category-product-info-capacity'>
+        <ProductInfo>
             <h3>Capacity</h3>
             <label>{specs.capacity}</label>
-        </div>
+        </ProductInfo>
         }
 
         <div className='category-products-info-features'>
