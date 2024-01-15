@@ -40,7 +40,8 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path='/' element={<Layout categories = {categories} />}>
+      <Route path='/' element={<Layout categories = {categories} />}> {/*The Layout feature enables to wrap multiple 
+      components to a single Layout */}
         <Route index element = {<Home />}></Route>
       <Route path='basket' element={<basket />}/>
       <Route path='checkout' element={<Checkout />}/>
