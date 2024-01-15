@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 {/*Third Party tool used to create a single class for styling components in CSS */}
 import styled from 'styled-components';
+import {CartContext} from "../Context/CartContext"
 
 const ProductTitle = styled.div`
 grid-column: 1/ span 3;
@@ -79,6 +80,8 @@ flex-direction: column;
 
 const Category_Products = ({id, title, image, features, specs, stock}) => {
     const navigate = useNavigate();
+    const cartContext = useContext(CartContext);
+    const addProduct = cartContext;
   return (
     <ProductInfoArticle>
     <ProductTitle>
