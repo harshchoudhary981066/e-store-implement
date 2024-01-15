@@ -3,6 +3,18 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import { getCategories} from './fetcher';
 import { Link, Outlet } from 'react-router-dom';
+import ProductDetail from './Components/ProductDetail';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Link,
+  BrowserRouter,
+} from "react-router-dom";
+import basket from './Components/basket';
+import Checkout from './Components/Checkout';
+import { Layout } from 'react-router-dom';
+import home from './Components/home';
 
 function App() {
   cosnt [categories, setCategories] = useState({errormessage: '', data: []});
@@ -26,29 +38,18 @@ function App() {
 
 
   return (
-    <React.Fragment>
-       <header>My Store</header>
-        <section>
-          <nav>
-          {categories.errormessage && <div> Error: {categories.errormessage}</div>}
-          <ul>  
-          {categories && renderCategories()}
-          </ul>   
-          </nav>
-          <main>
-          <Outlet />
-          </main>
-          </section>
-          <footer>
-            footer
-          </footer>
-   
-    <div className="App">
-      {results.map(d =>( 
-        <div key = {d.id}>{d.title}</div>
-      ))}
-    </div>
-    </React.Fragment>
+    <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<Layout categories = {categories} />}>
+        <Route index element = {<Home />}></Route>
+      <Route path='basket' element={<basket />}/>
+      <Route path='checkout' element={<Checkout />}/>
+      <Route path='products/:productId' element = {<ProductDetail />}/> {/*The colon in 'products/:productId' tells that productId is a dynamic element and can change */}
+      <Route path='categories/:categoryID' element = {<Category />}></Route>
+      </Route >
+    </Routes>
+    
+    </BrowserRouter>
   );
 }
 
