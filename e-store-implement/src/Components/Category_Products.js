@@ -80,8 +80,7 @@ flex-direction: column;
 
 const Category_Products = ({id, title, image, features, specs, stock}) => {
     const navigate = useNavigate();
-    const cartContext = useContext(CartContext);
-    const addProduct = cartContext;
+    const {addProduct} = useContext(CartContext);
   return (
     <ProductInfoArticle>
     <ProductTitle>
