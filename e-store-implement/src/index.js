@@ -24,6 +24,7 @@ root.render(
       <Route path='basket' element={<basket />}/>
       <Route path='checkout' element={<Checkout />}/>
       <Route path='products/:productId' element = {<ProductDetail />}/> {/*The colon in 'products/:productId' tells that productId is a dynamic element and can change */}
+      <Route path='categories/:categoryID' element = {<Category />}></Route>
     </Routes>
     
     </BrowserRouter>

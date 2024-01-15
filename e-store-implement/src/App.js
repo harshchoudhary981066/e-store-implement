@@ -4,6 +4,7 @@ import './App.css';
 import Category from './Components/Category';
 import { getCategories, getProducts } from './fetcher';
 import Category_Products from './Components/Category_Products';
+import { Link } from 'react-router-dom';
 
 function App() {
   cosnt [categories, setCategories] = useState({errormessage: '', data: []});
@@ -32,29 +33,24 @@ function App() {
         return categories; */}
 
   const renderCategories = () => {
-    return Category.data.map(
-      <Category key = {c.id} id = {c.id} title = {c.title} onCategoryClick = {() => handleClickCategory(c.id)} />
+    return Category.data.map( c =>
+      <li key = {c.id}><Link to={`/categories/${c.id}`}>{c.title}</Link></li>
     );
   }
 
-  const renderProducts = () => {
-    return products.data.map( p =>
-      <Category_Products key={p.id} {...p}>{p.title}</Category_Products>
-    );
-  }
+
   return (
     <React.Fragment>
    <header>My Store</header>
     <section>
       <nav>
       {categories.errormessage && <div> Error: {categories.errormessage}</div>}
+      <ul>  
       {categories && renderCategories()}
+      </ul>   
       </nav>
       <main>
-      {products.errormessage && <div> Error: {products.errormessage}</div>}
-        <h1>Products</h1>
-        {prodcuts && renderProducts()} {/*The "products && is used because the usestate([]) 
-        having no parameters won't throw an error. It is a kind of check mechanism for empty string*/}
+      
       </main>
       <footer>
         footer
