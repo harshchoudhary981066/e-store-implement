@@ -13,6 +13,7 @@ import {
 } from "react-router-dom";
 import basket from './Components/basket';
 import Checkout from './Components/Checkout';
+import { Layout } from 'react-router-dom';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -20,11 +21,12 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
     <Routes>
-      <Route path='/' element={<App />}/>
+      <Route path='/' element={<Layout />}>
       <Route path='basket' element={<basket />}/>
       <Route path='checkout' element={<Checkout />}/>
       <Route path='products/:productId' element = {<ProductDetail />}/> {/*The colon in 'products/:productId' tells that productId is a dynamic element and can change */}
       <Route path='categories/:categoryID' element = {<Category />}></Route>
+      </Route >
     </Routes>
     
     </BrowserRouter>
