@@ -1,14 +1,54 @@
-import React from 'react'
+import { CartContext } from "../contexts/cartContext";
 
-const basket = () => {
-  const renderTotal = () => {
-    const cartItems = getCartItems();
-    const total = cartItems.reduce(
-        (total, item) => (total += item.price * item.quantity),
-        0
-    );
-    return total;
-};
+import { TrashIcon, UpIcon, DownIcon } from "./icons";
+
+import { formatNumber } from "../utils";
+
+const Basket = () => {
+    const [cartItems, setCartItems] = useState([]);
+
+    const navigate = useNavigate();
+    const { getCartItems, removeProduct, increaseQuantity, decreaseQuantity, clearBasket } = useContext(CartContext);
+    
+
+    useEffect(() => {
+        setCartItems(getCartItems());
+    }, [getCartItems]);
+
+    const renderCart = () => {
+        if (cartItems.length > 0) {
+            return cartItems.map((p) => (
+                <React.Fragment key={p.id}>
+                    <div>
+                        <Link to={`/products/${p.id}`}>{p.title}</Link>
+                    </div>
+                    <BasketQty>
+                        {p.quantity}
+
+                            <UpIcon width={20} onClick={() => setCartItems(increaseQuantity({id: p.id}))}></UpIcon>
+                            <DownIcon width={20} onClick={() => setCartItems(decreaseQuantity({id: p.id}))}></DownIcon>
+                            <TrashIcon
+                                width={20}
+                                onClick={() => setCartItems(removeProduct({ id: p.id }))}
+                            ></TrashIcon>
+
+                    </BasketQty>
+                    <BasketPrice>{formatNumber(p.price)}</BasketPrice>
+                </React.Fragment>
+            ));
+        } else {
+            return <div>The basket is currently empty</div>;
+        }
+    };
+
+    const renderTotal = () => {
+        const cartItems = getCartItems();
+        const total = cartItems.reduce(
+            (total, item) => (total += item.price * item.quantity),
+            0
+        );
+        return total;
+    };
 
 return (
     <BasketContainer>

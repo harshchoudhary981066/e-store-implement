@@ -15,6 +15,7 @@ import basket from './Components/basket';
 import Checkout from './Components/Checkout';
 import { Layout } from 'react-router-dom';
 import home from './Components/home';
+import OrderConfirmation from './Components/OrderConfirmation';
 
 function App() {
   cosnt [categories, setCategories] = useState({errormessage: '', data: []});
@@ -45,6 +46,7 @@ function App() {
         <Route index element = {<Home />}></Route>
       <Route path='basket' element={<basket />}/>
       <Route path='checkout' element={<Checkout />}/>
+      <Route path='OrderConfirmation' element={<OrderConfirmation />}/>
       <Route path='products/:productId' element = {<ProductDetail />}/> {/*The colon in 'products/:productId' tells that productId is a dynamic element and can change */}
       <Route path='categories/:categoryID' element = {<Category />}></Route>
       </Route >

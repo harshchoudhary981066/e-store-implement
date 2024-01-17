@@ -1,5 +1,7 @@
+
+//Session storage used to store data in browser for the length of session
 const Storage = (cartItems) => {
-    sessionStorage.setItem('cart', JSON.stringify(cartItems.length > 0 ? cartItems: []));
+    localStorage.setItem('cart', JSON.stringify(cartItems.length > 0 ? cartItems: []));
 }
 
 export const CartReducer = (state, action) => {
@@ -8,6 +10,7 @@ export const CartReducer = (state, action) => {
   if (action.payload)
     index = state.cartItems.findIndex(x => x.id === action.payload.id);
   
+  //Saves a new array to return while removing items to comply ro rules of React
   let newItems = [...state.cartItems];
 
   switch (action.type) {
@@ -46,7 +49,7 @@ export const CartReducer = (state, action) => {
   }
 
   state.cartItems = newItems;
-  Storage(newItems);
+  Storage(newItems); //Stores session data
 
   return state;
 
