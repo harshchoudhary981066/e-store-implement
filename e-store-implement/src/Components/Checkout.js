@@ -11,7 +11,7 @@ const Checkout = () => {
         email: "",
         shippingAddress1: "",
 
-        touched: {
+        touched: { //prevents the below mentioned input fields to be black initially and turn red when it's invalid after someone clicking away
             email: false,
             password: false,
             shippingAddress1: false
@@ -41,8 +41,9 @@ const Checkout = () => {
         setForm((prevState) => {
             return {
                 ...prevState,
-                touched: { ...form.touched, [name]: true },
-            };
+                touched: { ...form.touched, [name]: true }, //tells form the input is valid and changes values to true
+              //The ...prevState is important to as missing it won't update form.touched, causing it to stay on false
+              };
         });
     };
 
