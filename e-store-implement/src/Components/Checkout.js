@@ -42,8 +42,8 @@ const Checkout = () => {
             return {
                 ...prevState,
                 touched: { ...form.touched, [name]: true }, //tells form the input is valid and changes values to true
-              //The ...prevState is important to as missing it won't update form.touched, causing it to stay on false
-              };
+                //The ...prevState is important to as missing it won't update form.touched, causing it to stay on false
+            };
         });
     };
 

@@ -1,7 +1,108 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import { getProductById } from '../fetcher';
-import styled from 'styled-components';
+import React, { useContext } from "react";
+
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+
+import { CartContext } from "../contexts/cartContext";
+
+import { getProductById } from "../fetcher";
+
+const ProductDetail = () => {
+    const { addProduct } = useContext(CartContext);
+    const [product, setProduct] = React.useState({
+        errorMessage: "",
+        data: {},
+    });
+    const { productId } = useParams();
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            const responseObject = await getProductById(productId);
+            setProduct(responseObject);
+        };
+        fetchData();
+    }, [productId]);
+
+    const createMarkup = () => {
+        return { __html: product.data?.description };  // "__html:" has to be used exactly like that to introduce the dangerous html 
+    };
+
+    return (
+        <ProductInfoArticle>
+            <ProductTitle>{product.data.title}</ProductTitle>
+
+            <figure>
+                <ProductImageContainer>
+                    <ProductImage
+                        src={`/assets/${product.data.image}`}
+                        alt={product.data.title}
+                    />
+                </ProductImageContainer>
+            </figure>
+
+            <aside>
+                <ProductInfo>
+                    <ProductInfoHeader>Dimensions</ProductInfoHeader>
+                    <label>{product.data.specs?.dimensions}</label>
+                </ProductInfo>
+
+                {product.data.specs?.capacity && (
+                    <ProductInfo>
+                        <ProductInfoHeader>Capacity</ProductInfoHeader>
+                        <label>{product.data.specs?.capacity}</label>
+                    </ProductInfo>
+                )}
+
+                <ProductInfo>
+                    <ProductInfoHeader>Features</ProductInfoHeader>
+                    <ul>
+                        {product.data.features?.map((f, i) => {
+                            return (
+                                <ProductInfoListItem key={`feature${i}`}>
+                                    {f}
+                                </ProductInfoListItem>
+                            );
+                        })}
+                    </ul>
+                </ProductInfo>
+            </aside>
+
+            <aside>
+                <ProductInfoFinancePrice>
+                    &pound;{product.data.price}
+                </ProductInfoFinancePrice>
+
+                <ProductInfoStock>
+                    <ProductInfoStockLabel>
+                        Stock Level: {product.data.stock}
+                    </ProductInfoStockLabel>
+                    <ProductInfoStockLabel>FREE Delivery</ProductInfoStockLabel>
+                </ProductInfoStock>
+
+                <ProductInfoAction>
+                    <ProductInfoActionButton
+                        onClick={() =>
+                            addProduct({
+                                id: product.data.id,
+                                title: product.data.title,
+                                price: product.data.price,
+                            })
+                        }
+                    >
+                        Add to Basket
+                    </ProductInfoActionButton>
+                </ProductInfoAction>
+            </aside>
+
+            <ProductInfoDescription
+                dangerouslySetInnerHTML={createMarkup()} //dangerouslySetInnerHTML is used to insert html tags in React. 
+                //It is deemed unsafe by react by default
+            ></ProductInfoDescription>
+        </ProductInfoArticle>
+    );
+};
+
+export default ProductDetail;
 
 const ProductInfoArticle = styled.article`
     display: grid;
@@ -87,95 +188,3 @@ const ProductInfoFinancePrice = styled.div`
     font-weight: bold;
     padding-top: 10px;
 `;
-
-const ProductDetail = () => {
-  const {productId} = useParams(); //can be deconstructed from 'params' by using {productId} in it's place
-  const [product, setProduct] = React.useState({errormessage: '', data: {}});
-  React.useEffect( () => {
-    const fetchData = async () => {
-      const responseObject = await getProductById(productId);
-       setProduct(responseObject);
-  }
-  fetchData();
-  }, [productId]);
-
-  const createMarkup = () =>{
-    return { __html: product.data.description} // "__html:" has to be used exactly like that to introduce the dangerous html 
-  }
-
-  return (
-    <ProductInfoArticle>
-            <ProductTitle>{product.data.title}</ProductTitle>
-
-            <figure>
-                <ProductImageContainer>
-                    <ProductImage
-                        src={`/assets/${product.data.image}`}
-                        alt={product.data.title}
-                    />
-                </ProductImageContainer>
-            </figure>
-
-            <aside>
-                <ProductInfo>
-                    <ProductInfoHeader>Dimensions</ProductInfoHeader>
-                    <label>{product.data.specs?.dimensions}</label>
-                </ProductInfo>
-
-                {product.data.specs?.capacity && (
-                    <ProductInfo>
-                        <ProductInfoHeader>Capacity</ProductInfoHeader>
-                        <label>{product.data.specs?.capacity}</label>
-                    </ProductInfo>
-                )}
-
-                <ProductInfo>
-                    <ProductInfoHeader>Features</ProductInfoHeader>
-                    <ul>
-                        {product.data.features?.map((f, i) => {
-                            return (
-                                <ProductInfoListItem key={`feature${i}`}>
-                                    {f}
-                                </ProductInfoListItem>
-                            );
-                        })}
-                    </ul>
-                </ProductInfo>
-            </aside>
-
-            <aside>
-                <ProductInfoFinancePrice>
-                    &pound;{product.data.price}
-                </ProductInfoFinancePrice>
-
-                <ProductInfoStock>
-                    <ProductInfoStockLabel>
-                        Stock Level: {product.data.stock}
-                    </ProductInfoStockLabel>
-                    <ProductInfoStockLabel>FREE Delivery</ProductInfoStockLabel>
-                </ProductInfoStock>
-
-                <ProductInfoAction>
-                    <ProductInfoActionButton
-                        onClick={() =>
-                            addProduct({
-                                id: product.data.id,
-                                title: product.data.title,
-                                price: product.data.price,
-                            })
-                        }
-                    >
-                        Add to Basket
-                    </ProductInfoActionButton>
-                </ProductInfoAction>
-            </aside>
-
-            <ProductInfoDescription
-                dangerouslySetInnerHTML={createMarkup()} //dangerouslySetInnerHTML is used to insert html tags in React. 
-                //It is deemed unsafe by react by default
-            ></ProductInfoDescription>
-        </ProductInfoArticle>
-  )
-}
-
-export default ProductDetail
